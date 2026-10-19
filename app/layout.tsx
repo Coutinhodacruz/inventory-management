@@ -1,6 +1,7 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { PwaProvider } from '@/components/pwa-provider'
+import { InstallPrompt } from '@/components/install-prompt'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -43,6 +44,7 @@ export default function RootLayout({
       <body className="antialiased">
         <PwaProvider>
           {children}
+          <InstallPrompt />
         </PwaProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>

@@ -365,22 +365,22 @@ export default function ElufidiyaMaisonHomePage() {
           {/* Urgent Low Stock Alerts Card (Heraldic Crimson Red Accent) */}
           <div className="flex flex-col justify-between rounded-2xl border border-red-200/80 bg-white p-5 shadow-xs transition-all hover:shadow-md sm:p-6">
             <div>
-              <div className="flex items-center justify-between border-b border-red-100 pb-3">
-                <div className="flex items-center gap-2">
-                  <div className="flex size-7 items-center justify-center rounded-lg bg-red-100 text-red-600">
+              <div className="flex items-center justify-between gap-3 border-b border-red-100 pb-3">
+                <div className="flex items-center gap-2 min-w-0 flex-1">
+                  <div className="flex size-7 shrink-0 items-center justify-center rounded-lg bg-red-100 text-red-600">
                     <AlertTriangle className="size-4" />
                   </div>
-                  <div>
-                    <h2 className="text-xs font-bold uppercase tracking-wider text-red-950">
+                  <div className="min-w-0 flex-1">
+                    <h2 className="text-xs font-bold uppercase tracking-wider text-red-950 truncate">
                       Workshop Low Stock Alerts
                     </h2>
-                    <p className="text-[11px] text-red-600 font-medium">
+                    <p className="text-[11px] text-red-600 font-medium truncate">
                       {lowStockItems.length} styles near replenishment threshold
                     </p>
                   </div>
                 </div>
 
-                <span className="rounded-full bg-red-600 px-2.5 py-0.5 text-[10px] font-black text-white shadow-xs animate-pulse-subtle">
+                <span className="shrink-0 whitespace-nowrap rounded-full bg-red-600 px-3 py-1 text-[10px] font-black tracking-wider text-white shadow-xs animate-pulse-subtle">
                   URGENT RESTOCK
                 </span>
               </div>
@@ -391,21 +391,24 @@ export default function ElufidiyaMaisonHomePage() {
                     key={item.id}
                     className="flex items-center justify-between rounded-xl border border-red-100 bg-red-50/40 p-3 transition-colors hover:bg-red-50/80"
                   >
-                    <div className="flex items-center gap-3 min-w-0 flex-1 pr-3">
+                    <div className="flex items-center gap-3.5 min-w-0 flex-1 pr-3">
                       {item.image ? (
                         <img
                           src={item.image}
                           alt={item.name}
-                          className="size-11 shrink-0 rounded-lg object-cover border border-red-200 shadow-2xs"
+                          onError={(e) => {
+                            e.currentTarget.style.display = 'none'
+                          }}
+                          className="size-20 sm:size-24 shrink-0 rounded-2xl object-cover border-2 border-red-200 shadow-md transition-transform duration-300 hover:scale-105"
                         />
                       ) : (
-                        <div className="flex size-11 shrink-0 items-center justify-center rounded-lg border border-red-200 bg-red-100/50 text-red-600">
-                          <Package className="size-5" />
+                        <div className="flex size-20 sm:size-24 shrink-0 items-center justify-center rounded-2xl border-2 border-red-200 bg-red-100/50 text-red-600 shadow-xs">
+                          <Package className="size-8" />
                         </div>
                       )}
                       <div className="min-w-0 flex-1">
-                        <p className="truncate text-xs font-bold text-slate-900">{item.name}</p>
-                        <p className="text-[10px] text-slate-500">
+                        <p className="truncate text-xs sm:text-sm font-bold text-slate-900">{item.name}</p>
+                        <p className="text-[10px] sm:text-xs text-slate-500 mt-0.5">
                           {item.sku} · {item.warehouse}
                         </p>
                       </div>
@@ -485,16 +488,16 @@ export default function ElufidiyaMaisonHomePage() {
                       className="group transition-colors hover:bg-blue-50/30"
                     >
                       <td className="py-3.5">
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-3.5">
                           {p.image ? (
                             <img
                               src={p.image}
                               alt={p.name}
-                              className="size-10 shrink-0 rounded-lg object-cover border border-slate-200 shadow-2xs group-hover:border-blue-400 group-hover:scale-105 transition-all"
+                              className="size-20 sm:size-24 shrink-0 rounded-2xl object-cover border-2 border-slate-200/90 shadow-md group-hover:border-blue-500 group-hover:scale-105 transition-all"
                             />
                           ) : (
-                            <div className="flex size-10 shrink-0 items-center justify-center rounded-lg border border-slate-200 bg-slate-100 text-slate-700 font-bold group-hover:border-blue-300">
-                              <Package className="size-4 text-blue-700" />
+                            <div className="flex size-20 sm:size-24 shrink-0 items-center justify-center rounded-2xl border-2 border-slate-200 bg-slate-100 text-slate-700 font-bold group-hover:border-blue-300 shadow-xs">
+                              <Package className="size-8 text-blue-700" />
                             </div>
                           )}
                           <div>
@@ -504,7 +507,7 @@ export default function ElufidiyaMaisonHomePage() {
                             >
                               {p.name}
                             </Link>
-                            <p className="text-[10px] text-slate-400">{p.category}</p>
+                            <p className="text-[10px] sm:text-xs text-slate-400">{p.category}</p>
                           </div>
                         </div>
                       </td>

@@ -18,6 +18,7 @@ import {
   List,
   ListFilter,
   MapPin,
+  Maximize2,
   MoreHorizontal,
   Package,
   Plus,
@@ -62,6 +63,7 @@ export default function ItemsPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>('All')
   const [viewStyle, setViewStyle] = useState<'table' | 'grid'>('table')
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [lightboxProduct, setLightboxProduct] = useState<ProductItem | null>(null)
 
   // New item form state with photo upload support
   const [form, setForm] = useState({
@@ -286,34 +288,49 @@ export default function ItemsPage() {
 
         {/* View Mode: Table or Showcase Grid */}
         {viewStyle === 'grid' ? (
-          /* Visual Luxury Card Grid */
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          /* Visual Luxury Card Grid - Enlarged Image Showcase */
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4">
             {filteredProducts.map((p) => {
               const isLow = p.status === 'Low stock'
               return (
                 <div
                   key={p.id}
-                  className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-xs transition-all duration-300 hover:-translate-y-1 hover:border-blue-300 hover:shadow-xl"
+                  className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-xs transition-all duration-300 hover:-translate-y-1 hover:border-blue-400 hover:shadow-2xl"
                 >
-                  {/* Top Cover Product Image Banner */}
-                  <div className="relative h-48 w-full overflow-hidden bg-slate-100">
+                  {/* Top Cover Product Image Banner - Substantially Enlarged for High-Impact Luxury Visibility */}
+                  <div
+                    onClick={() => setLightboxProduct(p)}
+                    className="relative h-80 sm:h-96 w-full cursor-pointer overflow-hidden bg-slate-100"
+                    title="Click to view full-resolution photo"
+                  >
                     {p.image ? (
                       <img
                         src={p.image}
                         alt={p.name}
-                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-108"
+                        onError={(e) => {
+                          e.currentTarget.style.display = 'none'
+                          e.currentTarget.nextElementSibling?.classList.remove('hidden')
+                        }}
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                       />
-                    ) : (
-                      <div className="flex h-full w-full items-center justify-center bg-slate-100 text-slate-400">
-                        <Package className="size-12" />
-                      </div>
-                    )}
+                    ) : null}
+                    <div className={`flex h-full w-full items-center justify-center bg-slate-100 text-slate-400 ${p.image ? 'hidden' : ''}`}>
+                      <Package className="size-16 text-slate-300" />
+                    </div>
 
                     {/* Gradient Overlay for text legibility */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/20 pointer-events-none" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent pointer-events-none" />
+
+                    {/* Hover Inspect Indicator */}
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/25 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                      <span className="flex items-center gap-2 rounded-xl bg-white/95 px-3.5 py-2 text-xs font-bold text-slate-900 shadow-xl backdrop-blur-md">
+                        <Maximize2 className="size-4 text-blue-600" />
+                        <span>Inspect Product Photo</span>
+                      </span>
+                    </div>
 
                     {/* Floating Status Pill over image */}
-                    <div className="absolute top-3 right-3">
+                    <div className="absolute top-3 right-3 z-10">
                       <span
                         className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-bold shadow-md backdrop-blur-md ${
                           isLow
@@ -331,18 +348,19 @@ export default function ItemsPage() {
                     </div>
 
                     {/* Floating Category Pill */}
-                    <div className="absolute bottom-3 left-3">
-                      <span className="rounded-lg bg-black/60 px-2.5 py-1 text-[10.5px] font-semibold text-white backdrop-blur-md border border-white/20">
+                    <div className="absolute bottom-3 left-3 z-10">
+                      <span className="rounded-lg bg-black/70 px-2.5 py-1 text-[11px] font-semibold text-white backdrop-blur-md border border-white/20">
                         {p.category}
                       </span>
                     </div>
 
                     {/* Quick Camera Upload Button */}
                     <label
-                      className="absolute bottom-3 right-3 flex size-8 cursor-pointer items-center justify-center rounded-lg bg-white/90 text-slate-700 shadow-md backdrop-blur-md hover:bg-white hover:text-blue-700 hover:scale-110 transition-all"
+                      onClick={(e) => e.stopPropagation()}
+                      className="absolute bottom-3 right-3 z-10 flex size-9 cursor-pointer items-center justify-center rounded-xl bg-white/95 text-slate-700 shadow-lg backdrop-blur-md hover:bg-white hover:text-blue-700 hover:scale-110 transition-all"
                       title="Upload or change image"
                     >
-                      <Camera className="size-4" />
+                      <Camera className="size-4.5" />
                       <input
                         type="file"
                         accept="image/*"
@@ -449,25 +467,39 @@ export default function ItemsPage() {
                         </td>
 
                         <td className="px-4 py-3.5">
-                          <div className="flex items-center gap-3">
-                            <div className="relative group/thumb shrink-0">
+                          <div className="flex items-center gap-3.5">
+                            <div
+                              onClick={() => setLightboxProduct(p)}
+                              className="relative group/thumb shrink-0 cursor-pointer"
+                              title="Click to inspect full resolution photo"
+                            >
                               {p.image ? (
                                 <img
                                   src={p.image}
                                   alt={p.name}
-                                  className="size-11 rounded-xl object-cover border border-slate-200/90 shadow-2xs group-hover:border-blue-400 group-hover:scale-105 transition-all"
+                                  onError={(e) => {
+                                    e.currentTarget.style.display = 'none'
+                                    e.currentTarget.nextElementSibling?.classList.remove('hidden')
+                                  }}
+                                  className="size-20 sm:size-24 rounded-2xl object-cover border-2 border-slate-200/90 shadow-md group-hover:border-blue-500 group-hover:scale-105 transition-all"
                                 />
-                              ) : (
-                                <div className="flex size-11 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-blue-700 font-bold group-hover:border-blue-400 group-hover:bg-blue-50 transition-colors">
-                                  <Package className="size-5" />
-                                </div>
-                              )}
+                              ) : null}
+                              <div className={`flex size-20 sm:size-24 shrink-0 items-center justify-center rounded-2xl border-2 border-slate-200 bg-slate-50 text-blue-700 font-bold group-hover:border-blue-400 group-hover:bg-blue-50 shadow-xs transition-colors ${p.image ? 'hidden' : ''}`}>
+                                <Package className="size-8" />
+                              </div>
+
+                              {/* Hover Zoom Icon Indicator */}
+                              <div className="absolute inset-0 flex items-center justify-center rounded-2xl bg-black/35 opacity-0 group-hover/thumb:opacity-100 transition-opacity">
+                                <Maximize2 className="size-5 text-white drop-shadow-md" />
+                              </div>
+
                               {/* Hover camera upload button */}
                               <label
-                                className="absolute -bottom-1 -right-1 flex size-5 cursor-pointer items-center justify-center rounded-full bg-blue-600 text-white opacity-0 shadow-sm group-hover/thumb:opacity-100 hover:scale-110 transition-all"
+                                onClick={(e) => e.stopPropagation()}
+                                className="absolute -bottom-1 -right-1 z-10 flex size-6 cursor-pointer items-center justify-center rounded-full bg-blue-600 text-white shadow-md hover:scale-110 transition-all"
                                 title="Change photo"
                               >
-                                <Camera className="size-3" />
+                                <Camera className="size-3.5" />
                                 <input
                                   type="file"
                                   accept="image/*"
@@ -640,24 +672,24 @@ export default function ItemsPage() {
                   </div>
 
                   {form.image ? (
-                    /* Active Image Preview Box */
-                    <div className="relative flex items-center gap-3.5 rounded-xl border border-blue-200 bg-blue-50/60 p-3">
+                    /* Active Image Preview Box - Substantially Enlarged */
+                    <div className="relative flex flex-col sm:flex-row items-center gap-4 rounded-2xl border-2 border-blue-200 bg-blue-50/70 p-4 shadow-sm">
                       <img
                         src={form.image}
                         alt="Preview"
-                        className="size-16 rounded-xl object-cover border border-blue-300 shadow-sm shrink-0"
+                        className="h-36 sm:h-44 w-full sm:w-48 rounded-xl object-cover border border-blue-300 shadow-md shrink-0"
                       />
-                      <div className="min-w-0 flex-1">
+                      <div className="min-w-0 flex-1 w-full">
                         <div className="flex items-center gap-1.5 text-xs font-bold text-blue-900">
                           <CheckCircle2 className="size-4 text-emerald-600 shrink-0" />
-                          <span>Goods Picture Attached</span>
+                          <span>Goods Picture Attached &amp; Validated</span>
                         </div>
-                        <p className="mt-0.5 text-[10.5px] text-slate-500 truncate">
-                          Will show in collections catalog, showroom grid, and reorder alerts
+                        <p className="mt-1 text-[11px] text-slate-500">
+                          HD showcase resolution ready for collections catalog, showroom card grids, and stock reorder alerts.
                         </p>
-                        <div className="mt-2 flex items-center gap-3">
-                          <label className="cursor-pointer inline-flex items-center gap-1 text-[11px] font-bold text-blue-700 hover:text-blue-800 hover:underline">
-                            <Upload className="size-3" />
+                        <div className="mt-3 flex items-center gap-3">
+                          <label className="cursor-pointer inline-flex items-center gap-1.5 rounded-lg border border-blue-300 bg-white px-3 py-1.5 text-xs font-bold text-blue-700 shadow-2xs hover:bg-blue-50 transition-colors">
+                            <Upload className="size-3.5" />
                             <span>Replace Picture</span>
                             <input
                               type="file"
@@ -669,13 +701,12 @@ export default function ItemsPage() {
                               }}
                             />
                           </label>
-                          <span className="text-slate-300">|</span>
                           <button
                             type="button"
                             onClick={() => setForm({ ...form, image: '' })}
-                            className="inline-flex items-center gap-1 text-[11px] font-bold text-red-600 hover:text-red-700 hover:underline"
+                            className="inline-flex items-center gap-1 text-xs font-semibold text-red-600 hover:text-red-700 hover:underline"
                           >
-                            <Trash2 className="size-3" />
+                            <Trash2 className="size-3.5" />
                             <span>Remove</span>
                           </button>
                         </div>
@@ -743,24 +774,24 @@ export default function ItemsPage() {
                     <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">
                       Or select from Maison luxury photo samples:
                     </p>
-                    <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
+                    <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
                       {SAMPLE_PRESETS.map((preset) => (
                         <button
                           key={preset.name}
                           type="button"
                           onClick={() => setForm({ ...form, image: preset.url })}
-                          className={`group/preset flex flex-col items-center rounded-xl border p-1.5 transition-all text-center ${
+                          className={`group/preset flex flex-col items-center rounded-xl border p-2 transition-all text-center ${
                             form.image === preset.url
-                              ? 'border-blue-500 bg-blue-50/80 ring-2 ring-blue-500/30'
+                              ? 'border-blue-500 bg-blue-50/80 ring-2 ring-blue-500/30 shadow-xs'
                               : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50'
                           }`}
                         >
                           <img
                             src={preset.url}
                             alt={preset.name}
-                            className="size-10 rounded-lg object-cover mb-1 group-hover/preset:scale-105 transition-transform"
+                            className="size-16 sm:size-20 rounded-xl object-cover mb-1.5 group-hover/preset:scale-105 transition-transform border border-slate-200 shadow-2xs"
                           />
-                          <span className="text-[9.5px] font-semibold text-slate-700 truncate w-full">
+                          <span className="text-[10px] font-semibold text-slate-700 truncate w-full">
                             {preset.name}
                           </span>
                         </button>
@@ -830,6 +861,141 @@ export default function ItemsPage() {
                   </button>
                 </div>
               </form>
+            </div>
+          </div>
+        )}
+
+        {/* High-Definition Luxury Product Image Lightbox Modal */}
+        {lightboxProduct && (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 sm:p-6 backdrop-blur-sm animate-in fade-in duration-200"
+            onClick={() => setLightboxProduct(null)}
+          >
+            <div
+              className="relative flex flex-col lg:flex-row max-h-[90vh] w-full max-w-4xl overflow-hidden rounded-3xl bg-white shadow-2xl border border-slate-200"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Close Button */}
+              <button
+                type="button"
+                onClick={() => setLightboxProduct(null)}
+                className="absolute top-4 right-4 z-20 flex size-9 items-center justify-center rounded-full bg-white/90 text-slate-700 shadow-lg backdrop-blur-md hover:bg-slate-900 hover:text-white transition-all"
+                title="Close (Esc)"
+              >
+                <X className="size-5" />
+              </button>
+
+              {/* Large Image Showcase Section */}
+              <div className="relative flex-1 bg-slate-950 flex items-center justify-center p-4 sm:p-6 min-h-[320px] sm:min-h-[420px]">
+                {lightboxProduct.image ? (
+                  <img
+                    src={lightboxProduct.image}
+                    alt={lightboxProduct.name}
+                    className="max-h-[65vh] w-auto max-w-full rounded-2xl object-contain shadow-2xl transition-all"
+                  />
+                ) : (
+                  <div className="flex flex-col items-center justify-center text-slate-500 py-16">
+                    <Package className="size-20 mb-3" />
+                    <span className="text-sm">No photo available</span>
+                  </div>
+                )}
+              </div>
+
+              {/* Product Specifications & Details Sidebar */}
+              <div className="flex w-full lg:w-80 flex-col justify-between p-6 bg-white border-t lg:border-t-0 lg:border-l border-slate-100">
+                <div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="rounded-full bg-blue-100 px-2.5 py-0.5 text-[10.5px] font-bold text-blue-800">
+                      {lightboxProduct.category}
+                    </span>
+                    <span
+                      className={`rounded-full px-2.5 py-0.5 text-[10.5px] font-bold ${
+                        lightboxProduct.status === 'Low stock'
+                          ? 'bg-red-100 text-red-700'
+                          : 'bg-emerald-100 text-emerald-800'
+                      }`}
+                    >
+                      {lightboxProduct.status}
+                    </span>
+                  </div>
+
+                  <h3 className="font-serif text-lg font-bold text-slate-900 leading-snug">
+                    {lightboxProduct.name}
+                  </h3>
+                  <p className="mt-1 font-mono text-xs font-bold text-slate-400">
+                    {lightboxProduct.sku}
+                  </p>
+
+                  {lightboxProduct.description && (
+                    <p className="mt-3 text-xs leading-relaxed text-slate-600 bg-slate-50 p-3 rounded-xl border border-slate-100">
+                      {lightboxProduct.description}
+                    </p>
+                  )}
+
+                  <div className="mt-5 space-y-2.5 text-xs">
+                    <div className="flex items-center justify-between border-b border-slate-100 pb-2">
+                      <span className="text-slate-500">Retail Price</span>
+                      <span className="text-base font-extrabold text-blue-700">
+                        ${lightboxProduct.sellingPrice.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between border-b border-slate-100 pb-2">
+                      <span className="text-slate-500">Atelier Cost</span>
+                      <span className="font-bold text-slate-700">
+                        ${lightboxProduct.costPrice.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between border-b border-slate-100 pb-2">
+                      <span className="text-slate-500">Available Stock</span>
+                      <span className="font-bold text-slate-900">
+                        {lightboxProduct.availableStock} units
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-slate-500">Allocated Boutique</span>
+                      <span className="font-bold text-slate-800 text-right truncate max-w-[150px]">
+                        {lightboxProduct.warehouse}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-6 pt-4 border-t border-slate-100 flex flex-col gap-2">
+                  <label className="flex items-center justify-center gap-2 w-full cursor-pointer rounded-xl bg-slate-900 px-4 py-2.5 text-xs font-bold text-white shadow-md hover:bg-slate-800 transition-colors">
+                    <Camera className="size-4" />
+                    <span>Upload New Photo</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={(e) => {
+                        handleUpdateItemImage(lightboxProduct.id, e)
+                        const f = e.target.files?.[0]
+                        if (f) {
+                          const reader = new FileReader()
+                          reader.onload = (ev) => {
+                            if (typeof ev.target?.result === 'string') {
+                              setLightboxProduct({
+                                ...lightboxProduct,
+                                image: ev.target.result,
+                              })
+                            }
+                          }
+                          reader.readAsDataURL(f)
+                        }
+                      }}
+                    />
+                  </label>
+
+                  <button
+                    type="button"
+                    onClick={() => setLightboxProduct(null)}
+                    className="w-full rounded-xl border border-slate-200 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-50 transition-colors"
+                  >
+                    Close Preview
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         )}

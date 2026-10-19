@@ -264,7 +264,7 @@ export const INITIAL_PRODUCTS: ProductItem[] = [
     sellingPrice: 485.0,
     status: 'Low stock',
     warehouse: 'Lagos Atelier & Distribution Hub',
-    image: 'https://images.unsplash.com/photo-1582895568114-16e78942b033?w=600&auto=format&fit=crop&q=80',
+    image: 'https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?w=600&auto=format&fit=crop&q=80',
     instagramTag: '@elufidiya_ng',
     description: 'Burnished cognac crust leather with solid brass hand-polished double buckles.',
   },

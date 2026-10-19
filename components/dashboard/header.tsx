@@ -44,7 +44,7 @@ export function Header({
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 w-full items-center justify-between border-b border-slate-200/90 bg-white/95 px-3 backdrop-blur-md transition-all sm:px-6">
+    <header className="sticky top-0 z-30 flex h-14 sm:h-16 w-full items-center justify-between border-b border-slate-200/90 bg-white/95 px-2.5 backdrop-blur-md transition-all sm:px-6">
       {/* Mobile Search Active Mode */}
       {mobileSearchOpen ? (
         <div className="flex w-full items-center gap-2 animate-in fade-in">
@@ -54,13 +54,13 @@ export function Header({
             autoFocus
             value={searchQuery}
             onChange={(e) => onSearchChange?.(e.target.value)}
-            placeholder="Search items, SKU, artisans, orders..."
-            className="h-10 flex-1 rounded-xl border border-slate-200 bg-slate-50 px-3 text-xs text-slate-900 outline-none focus:border-blue-500 focus:bg-white"
+            placeholder="Search items, SKU, orders..."
+            className="h-9 flex-1 rounded-xl border border-slate-200 bg-slate-50 px-3 text-xs text-slate-900 outline-none focus:border-blue-500 focus:bg-white"
           />
           <button
             type="button"
             onClick={() => setMobileSearchOpen(false)}
-            className="rounded-lg p-2 text-slate-500 hover:bg-slate-100"
+            className="flex size-8 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 shrink-0"
             aria-label="Close search"
           >
             <X className="size-5" />
@@ -68,12 +68,12 @@ export function Header({
         </div>
       ) : (
         <>
-          {/* Left side: Hamburger (mobile), Boutique Selector, & Search */}
-          <div className="flex items-center gap-2 sm:gap-3 md:gap-4 min-w-0">
+          {/* Left side: Hamburger (mobile), Boutique Selector, & Desktop Search */}
+          <div className="flex items-center gap-1 sm:gap-2.5 min-w-0 shrink-0">
             <button
               type="button"
               onClick={onOpenSidebar}
-              className="rounded-lg p-2 text-slate-500 hover:bg-slate-100 lg:hidden shrink-0"
+              className="flex size-8 sm:size-9 items-center justify-center rounded-lg text-slate-600 hover:bg-slate-100 lg:hidden shrink-0"
               aria-label="Open menu"
             >
               <Menu className="size-5" />
@@ -84,13 +84,13 @@ export function Header({
               <button
                 type="button"
                 onClick={() => setBoutiqueDropdown(!boutiqueDropdown)}
-                className="flex items-center gap-1.5 sm:gap-2 rounded-lg border border-slate-200 bg-slate-50/80 px-2 py-1.5 text-xs font-semibold text-slate-800 transition-all hover:border-blue-400 hover:bg-white hover:shadow-xs"
+                className="flex h-8 sm:h-9 items-center gap-1 sm:gap-1.5 rounded-lg border border-slate-200 bg-slate-50/90 px-2 text-xs font-semibold text-slate-800 transition-all hover:border-blue-400 hover:bg-white shrink-0 whitespace-nowrap"
               >
-                <div className="flex size-5 items-center justify-center rounded-full bg-blue-600 text-white shadow-xs shrink-0">
-                  <MapPin className="size-3" />
+                <div className="flex size-4.5 sm:size-5 items-center justify-center rounded-full bg-blue-600 text-white shadow-2xs shrink-0">
+                  <MapPin className="size-2.5 sm:size-3" />
                 </div>
                 <span className="hidden md:inline">{selectedBoutique.name}</span>
-                <span className="md:hidden truncate max-w-[100px] sm:max-w-none">D&apos;GTC</span>
+                <span className="md:hidden truncate max-w-[75px] sm:max-w-none">D&apos;GTC</span>
                 <ChevronDown className="size-3 text-slate-400 shrink-0" />
               </button>
 
@@ -147,23 +147,34 @@ export function Header({
           </div>
 
           {/* Right side: Mobile Search Button, Currency, Notification Bell, New Item Button, User profile */}
-          <div className="flex items-center gap-1.5 sm:gap-2.5">
+          <div className="flex items-center gap-1 sm:gap-2 shrink-0">
             {/* Mobile Search Icon Trigger */}
             <button
               type="button"
               onClick={() => setMobileSearchOpen(true)}
-              className="flex size-8 sm:size-9 items-center justify-center rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 md:hidden"
+              className="flex size-8 sm:size-9 items-center justify-center rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 md:hidden shrink-0"
               aria-label="Open search"
             >
-              <Search className="size-4" />
+              <Search className="size-3.5 sm:size-4" />
             </button>
 
-            {/* Currency Switcher */}
-            <div className="flex items-center rounded-lg border border-slate-200 bg-slate-100 p-0.5 text-[10.5px] sm:text-[11px] font-bold">
+            {/* Currency Switcher: Compact Single Tap Pill on Mobile */}
+            <button
+              type="button"
+              onClick={() => setCurrency(currency === 'USD' ? 'NGN' : 'USD')}
+              className="flex sm:hidden h-8 items-center gap-1 rounded-lg border border-slate-200 bg-slate-100 px-2 text-xs font-bold text-slate-700 active:bg-slate-200 shrink-0 whitespace-nowrap"
+              title={`Active Currency: ${currency}. Tap to switch`}
+            >
+              <span className="text-blue-700 font-extrabold">{currency === 'USD' ? '$' : '₦'}</span>
+              <span className="text-[10px] text-slate-500">{currency}</span>
+            </button>
+
+            {/* Currency Switcher: Standard Pill on Tablet & Desktop */}
+            <div className="hidden sm:flex items-center rounded-lg border border-slate-200 bg-slate-100 p-0.5 text-[11px] font-bold shrink-0 whitespace-nowrap">
               <button
                 type="button"
                 onClick={() => setCurrency('USD')}
-                className={`rounded-md px-1.5 sm:px-2 py-1 transition-all ${
+                className={`rounded-md px-2 py-1 transition-all ${
                   currency === 'USD'
                     ? 'bg-white text-blue-700 shadow-2xs'
                     : 'text-slate-500 hover:text-slate-900'
@@ -174,7 +185,7 @@ export function Header({
               <button
                 type="button"
                 onClick={() => setCurrency('NGN')}
-                className={`rounded-md px-1.5 sm:px-2 py-1 transition-all ${
+                className={`rounded-md px-2 py-1 transition-all ${
                   currency === 'NGN'
                     ? 'bg-white text-blue-700 shadow-2xs'
                     : 'text-slate-500 hover:text-slate-900'
@@ -190,10 +201,10 @@ export function Header({
                 type="button"
                 onClick={() => setNotificationsOpen(!notificationsOpen)}
                 title="Maison Alerts"
-                className="relative flex size-8 sm:size-9 items-center justify-center rounded-lg border border-slate-200 text-slate-600 transition-all hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900"
+                className="relative flex size-8 sm:size-9 items-center justify-center rounded-lg border border-slate-200 text-slate-600 transition-all hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900 shrink-0"
               >
-                <Bell className="size-4" />
-                <span className="absolute right-1.5 top-1.5 flex size-2">
+                <Bell className="size-3.5 sm:size-4" />
+                <span className="absolute right-1 top-1 sm:right-1.5 sm:top-1.5 flex size-2">
                   <span className="absolute inline-flex size-full animate-ping rounded-full bg-red-400 opacity-75" />
                   <span className="relative inline-flex size-2 rounded-full bg-red-600" />
                 </span>
@@ -221,11 +232,12 @@ export function Header({
               )}
             </div>
 
-            {/* Quick Add Button with Royal Sapphire Gradient */}
+            {/* Quick Add Button */}
             <button
               type="button"
               onClick={onQuickCreate}
-              className="flex h-8 sm:h-9 items-center gap-1.5 rounded-lg bg-gradient-to-r from-blue-700 via-blue-600 to-indigo-700 px-2.5 sm:px-3.5 text-xs font-bold text-white shadow-md shadow-blue-600/25 transition-all hover:scale-[1.02] active:scale-95"
+              title="Add New Item"
+              className="flex size-8 sm:h-9 sm:w-auto items-center justify-center gap-1.5 rounded-lg bg-gradient-to-r from-blue-700 via-blue-600 to-indigo-700 sm:px-3.5 text-xs font-bold text-white shadow-sm transition-all hover:scale-[1.02] active:scale-95 shrink-0"
             >
               <Plus className="size-4" strokeWidth={2.5} />
               <span className="hidden sm:inline">New Item</span>
@@ -234,8 +246,8 @@ export function Header({
             <div className="hidden h-5 w-px bg-slate-200 md:block" />
 
             {/* Executive Director Profile Badge */}
-            <div className="flex items-center gap-2">
-              <div className="relative flex size-8 sm:size-9 items-center justify-center overflow-hidden rounded-full border border-amber-400 bg-gradient-to-tr from-blue-900 to-slate-900 shadow-sm ring-2 ring-blue-500/20">
+            <div className="flex items-center gap-2 shrink-0">
+              <div className="relative flex size-8 sm:size-9 items-center justify-center overflow-hidden rounded-full border border-amber-400 bg-gradient-to-tr from-blue-900 to-slate-900 shadow-sm ring-2 ring-blue-500/20 shrink-0">
                 <span className="text-xs font-black text-amber-300">E</span>
               </div>
               <div className="hidden text-left xl:block">

@@ -164,42 +164,6 @@ export function PwaProvider({ children }: { children: React.ReactNode }) {
           </button>
         </div>
       )}
-
-      {/* Unobtrusive Install Prompt Banner */}
-      {showInstallBanner && deferredPrompt && (
-        <div className="fixed top-3 right-3 sm:right-6 z-50 flex items-center gap-3 rounded-2xl border border-slate-200 bg-white/95 px-4 py-2.5 shadow-lg backdrop-blur-md text-xs">
-          <div className="flex items-center gap-2">
-            <span className="flex size-7 items-center justify-center rounded-lg bg-[#0F1E36] text-[#C5A059] font-serif font-bold text-xs">
-              E
-            </span>
-            <span className="font-medium text-slate-800 hidden sm:inline">
-              Install Elufidiya Maison App
-            </span>
-            <span className="font-medium text-slate-800 sm:hidden">
-              Install App
-            </span>
-          </div>
-
-          <div className="flex items-center gap-1.5">
-            <button
-              type="button"
-              onClick={handleInstallClick}
-              className="flex items-center gap-1 rounded-lg bg-[#0F1E36] px-3 py-1 text-[11px] font-bold text-white hover:bg-[#1E3A5F] active:scale-95 transition-all"
-            >
-              <Download className="size-3" />
-              <span>Install</span>
-            </button>
-            <button
-              type="button"
-              onClick={handleDismissBanner}
-              className="rounded-lg p-1 text-slate-400 hover:bg-slate-100"
-              aria-label="Dismiss"
-            >
-              <X className="size-3.5" />
-            </button>
-          </div>
-        </div>
-      )}
     </>
   )
 }

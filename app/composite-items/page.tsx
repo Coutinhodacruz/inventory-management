@@ -65,16 +65,19 @@ export default function CompositeItemsPage() {
               {filtered.map((i) => (
                 <tr key={i.id} className="transition-colors hover:bg-[#f8fafc]">
                   <td className="px-4 py-3">
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-3.5">
                       {i.image ? (
                         <img
                           src={i.image}
                           alt={i.name}
-                          className="size-10 shrink-0 rounded-lg object-cover border border-slate-200 shadow-2xs"
+                          className="size-20 sm:size-24 shrink-0 rounded-2xl object-cover border-2 border-slate-200/90 shadow-md transition-transform duration-300 hover:scale-105"
+                          onError={(e) => {
+                            e.currentTarget.style.display = 'none'
+                          }}
                         />
                       ) : (
-                        <div className="flex size-10 shrink-0 items-center justify-center rounded-lg border border-slate-200 bg-slate-100 text-blue-700">
-                          <Layers className="size-5" />
+                        <div className="flex size-20 sm:size-24 shrink-0 items-center justify-center rounded-2xl border-2 border-slate-200 bg-slate-100 text-blue-700 shadow-xs">
+                          <Layers className="size-8" />
                         </div>
                       )}
                       <div>
