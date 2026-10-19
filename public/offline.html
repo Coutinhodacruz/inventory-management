@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0F1E36">
+  <title>Offline | Elufidiya Maison 1975</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: #0F1E36;
+      color: #F8FAFC;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      text-align: center;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(197, 160, 89, 0.25);
+      border-radius: 24px;
+      padding: 40px 32px;
+      max-width: 440px;
+      width: 100%;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(12px);
+    }
+    .badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #C5A059;
+      background: rgba(197, 160, 89, 0.12);
+      border: 1px solid rgba(197, 160, 89, 0.25);
+      padding: 6px 14px;
+      border-radius: 9999px;
+      margin-bottom: 20px;
+    }
+    .icon-wrapper {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 20px auto;
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(138, 21, 56, 0.4) 0%, rgba(15, 30, 54, 0.8) 100%);
+      border: 1px solid rgba(197, 160, 89, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .icon-wrapper svg {
+      width: 36px;
+      height: 36px;
+      stroke: #C5A059;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    h1 {
+      font-family: Georgia, serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+    }
+    p {
+      font-size: 13px;
+      line-height: 1.6;
+      color: #94A3B8;
+      margin-bottom: 28px;
+    }
+    .actions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .btn-retry {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #C5A059 0%, #B38E46 100%);
+      color: #0F1E36;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      padding: 14px 24px;
+      border-radius: 14px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(197, 160, 89, 0.35);
+      transition: all 0.2s ease;
+    }
+    .btn-retry:hover {
+      opacity: 0.95;
+      transform: translateY(-1px);
+    }
+    .btn-retry:active {
+      transform: scale(0.98);
+    }
+    .offline-tip {
+      font-size: 11px;
+      color: #64748B;
+      margin-top: 20px;
+    }
+    .pulse {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: #EF4444;
+      margin-right: 6px;
+      vertical-align: middle;
+      animation: pulse-dot 2s infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(1.3); }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="badge">Elufidiya Maison 1975</div>
+    
+    <div class="icon-wrapper">
+      <svg viewBox="0 0 24 24">
+        <line x1="1" y1="1" x2="23" y2="23"></line>
+        <path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"></path>
+        <path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"></path>
+        <path d="M10.71 5.05A16 16 0 0 1 22.58 9"></path>
+        <path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"></path>
+        <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+        <line x1="12" y1="20" x2="12.01" y2="20"></line>
+      </svg>
+    </div>
+
+    <h1>Inventory Offline</h1>
+    <p>
+      Your device is currently disconnected from the network. Cached catalog items and records remain preserved locally. Reconnect to resume live synchronization.
+    </p>
+
+    <div class="actions">
+      <button class="btn-retry" onclick="window.location.reload()">
+        <span>Re-establish Connection</span>
+      </button>
+    </div>
+
+    <div class="offline-tip">
+      <span class="pulse"></span>Inventory sync will automatically resume when signal is detected.
+    </div>
+  </div>
+
+  <script>
+    window.addEventListener('online', function() {
+      window.location.reload();
+    });
+  </script>
+</body>
+</html>

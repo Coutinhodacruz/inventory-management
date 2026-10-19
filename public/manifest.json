@@ -1,0 +1,62 @@
+{
+  "name": "Elufidiya 1975 — Luxury Maison Inventory",
+  "short_name": "Elufidiya",
+  "description": "Haute horology, fine leathercraft & boutique inventory orchestration platform for Elufidiya 1975.",
+  "start_url": "/",
+  "id": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0F1E36",
+  "theme_color": "#0F1E36",
+  "categories": ["business", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/icon-maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Goods Catalog",
+      "short_name": "Items",
+      "description": "View luxury items, loafers, suits and inventory goods",
+      "url": "/items",
+      "icons": [{ "src": "/icons/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Sales Orders",
+      "short_name": "Orders",
+      "description": "Track client orders and VIP fulfillments",
+      "url": "/sales-orders",
+      "icons": [{ "src": "/icons/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Boutiques & Hubs",
+      "short_name": "Vaults",
+      "description": "Manage multi-location boutiques, warehouses, and ateliers",
+      "url": "/warehouses",
+      "icons": [{ "src": "/icons/icon-192x192.png", "sizes": "192x192" }]
+    }
+  ]
+}
